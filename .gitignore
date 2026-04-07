@@ -1,0 +1,12 @@
+# Large simulation cache files — regenerated automatically on first run
+data/*.npz
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Python
+__pycache__/
+*.py[cod]
+
+# macOS
+.DS_Store

@@ -83,8 +83,8 @@ Large simulation caches (`*.npz`) are gitignored and regenerated on first run.
 
 ```bash
 # 1. Clone
-git clone https://github.com/makspacz12/simulation-based-epidemic-inference.git
-cd simulation-based-epidemic-inference
+git clone https://github.com/makspacz12/likelihood-free-inference-adaptive-network-sir.git
+cd likelihood-free-inference-adaptive-network-sir
 
 # 2. Open and run the notebook (Python 3 + numpy, pandas, matplotlib, scikit-learn)
 jupyter notebook simulator.ipynb

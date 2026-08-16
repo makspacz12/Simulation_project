@@ -1,7 +1,7 @@
 # ST3247 Simulation — Adaptive-Network SIR Inference
 
 **National University of Singapore** · Department of Statistics and Data Science  
-**Module:** [ST3247 Simulation](https://nusmods.com/courses/ST3247/simulation) (4 Units)  
+**Module:** [ST3247 Simulation](https://nusmods.com/courses/ST3247/simulation)  
 **Instructor:** [Assoc. Prof. Alexandre Thiéry](https://alexxthiery.github.io/)  
 **Project brief:** [Simulation-Based Inference for an Adaptive-Network Epidemic Model](https://alexxthiery.github.io/teaching/SBI_infection/SBI-infection.html)
 
@@ -57,8 +57,6 @@ Under Prof. Thiéry the module was heavily **implementation-first** (Python / Nu
 7. Markov Chain Monte Carlo (lecture coverage varied by semester; we still implemented **ABC-MCMC** as an advanced project method)
 
 The project brief required: (i) basic **rejection ABC**, (ii) careful **summary-statistic design** (β and ρ are mechanistically confounded), and (iii) at least one **advanced SBI method** (we used regression adjustment + ABC-MCMC), plus validation.
-
-Midterm performance: **A** · list **A (Honours)** — context for the course standard under Prof. Thiéry.
 
 ---
 
@@ -119,6 +117,8 @@ pdflatex report.tex && bibtex report && pdflatex report.tex && pdflatex report.t
 - Ruofei Fang  
 
 Group project for **ST3247 Simulation**, NUS, under **Assoc. Prof. Alexandre Thiéry**.
+
+**Grade obtained: A (Honours)**
 
 ---
 

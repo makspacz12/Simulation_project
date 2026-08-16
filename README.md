@@ -11,11 +11,9 @@ Group project by **Maksymilian Paczyński** and **Ruofei Fang**.
 
 ## Overview
 
-This repository is the **graded group project** for [ST3247 Simulation](https://nusmods.com/courses/ST3247/simulation) (AY25/26 Semester 2) under **Assoc. Prof. Alexandre Thiéry**.
+This repository is the **group project** for [ST3247 Simulation](https://nusmods.com/courses/ST3247/simulation) under **Assoc. Prof. Alexandre Thiéry**: infer \((\beta,\gamma,\rho)\) for an adaptive-network SIR epidemic when the likelihood is intractable, using **ABC** and related simulation-based methods (Python / NumPy).
 
-The assessment was to run a full **simulation-based inference** pipeline on a stochastic SIR epidemic on an **adaptive contact network** (Gross et al., 2006), where the likelihood is intractable. In practice that meant implementing and stress-testing the same ideas examined in the module — especially **Monte Carlo simulation**, **Bayesian inference**, and **Approximate Bayesian Computation (ABC)** — then pushing beyond basic rejection ABC with advanced methods.
-
-**Primary deliverables:** written **report** (`report.pdf`) + reproducible **code / notebook** (`simulator.ipynb`). Project marking (per brief): **70% report** · **30% code**.
+**Deliverables:** `report.pdf` + `simulator.ipynb` (marking: 70% report · 30% code).
 
 | Parameter | Meaning | Prior |
 |---|---|---|
@@ -33,30 +31,20 @@ The assessment was to run a full **simulation-based inference** pipeline on a st
 
 Informed 8-statistic design resolves the β–ρ confound: posterior correlation \(r(\beta,\rho) = 0.071\) at ε = 5% (vs 0.818 for naive temporal means).
 
----
+```mermaid
+flowchart LR
+  A[Observed epidemic data] --> B[Summary statistics]
+  B --> C[Rejection ABC]
+  C --> D[Regression adjustment]
+  C --> E[ABC-MCMC]
+  D --> F[Final posterior]
+  E --> F
+```
 
-## Course assessment & syllabus (what this project tested)
-
-Under Prof. Thiéry the module was heavily **implementation-first** (Python / NumPy). Typical component weights for AY25/26 Sem 2:
-
-| Component | Weight |
-|---|---:|
-| Canvas quizzes | 10% |
-| Midterm | 20% |
-| **Group project (this repo)** | **30%** |
-| Final exam | 40% |
-
-**Topics covered in the course** (and exercised by the project / exams):
-
-1. Monte Carlo estimation  
-2. Inverse transform sampling and rejection sampling  
-3. Importance sampling (including self-normalised IS)  
-4. Bayesian inference  
-5. **Approximate Bayesian Computation (ABC)** — core of this project; also relevant to finals preparation  
-6. Markov chain basics  
-7. Markov Chain Monte Carlo (lecture coverage varied by semester; we still implemented **ABC-MCMC** as an advanced project method)
-
-The project brief required: (i) basic **rejection ABC**, (ii) careful **summary-statistic design** (β and ρ are mechanistically confounded), and (iii) at least one **advanced SBI method** (we used regression adjustment + ABC-MCMC), plus validation.
+<p align="center">
+  <img src="graphics/corr_heatmap.png" alt="Correlation heatmap: baseline vs informed summary statistics" width="720"/>
+</p>
+<p align="center"><em>Baseline vs informed summary–parameter correlations (prior predictive, N = 10,000).</em></p>
 
 ---
 

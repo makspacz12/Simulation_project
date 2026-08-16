@@ -37,15 +37,14 @@
 \begin{document}
 
 \title{Parameter Inference in a Stochastic SIR Epidemic Model on an Adaptive Network}
-\author{}
+\author{Maksymilian Paczyński \and Ruofei Fang}
 \date{\today}
 \maketitle
 
 {\bf Group Composition:}
 \begin{enumerate}
-\item Maksymilian Paczyński, A0334580E, E1653593@u.nus.edu
-\item Ruofei Fang, A0339987Y, fionafang@u.nus.edu
-\item Student 3, Student ID 3, email 3
+\item Maksymilian Paczyński
+\item Ruofei Fang
 \end{enumerate}
 
 % ============================================================
@@ -69,7 +68,7 @@ $\rho$ & Rewiring probability per S--I edge per step & $\mathrm{Uniform}(0.0,\,0
 \caption{Model parameters and priors.}
 \end{table}
 
-\noindent The epidemic peaks around $t \approx 10$--$13$ (infected fraction 0.6--0.8) and decays to near-zero by $t=200$. Each time step applies three sequential phases: Infection $\to$ Recovery $\to$ Rewiring. The observed dataset contains 40 replicate trajectories of infected fraction, rewiring counts, and the final degree histogram. All code and analysis scripts are available at: \url{https://github.com/makspacz12/Simulation_project}.
+\noindent The epidemic peaks around $t \approx 9$ (mean infected fraction $\approx 0.63$) and decays to near-zero by $t=200$. Each time step applies three sequential phases: Infection $\to$ Recovery $\to$ Rewiring. In our discrete implementation, a rewiring event reconnects the susceptible node to a uniformly random non-neighbour (who may be S, I, or R); this differs from the continuous-time Gross et al.\ formulation, where rewired links are preferentially formed to other susceptibles. The observed dataset contains 40 replicate trajectories of infected fraction, rewiring counts, and the final degree histogram. All code and analysis scripts are available at: \url{https://github.com/makspacz12/Simulation_project}.
 
 
 
@@ -114,7 +113,7 @@ s1 & Peak infected fraction & $\max_t \bar{I}_t$ & Mixed & --- \\
 s2 & First-step infection increase & $\bar{I}_1 - \bar{I}_0$ & \textbf{Pure $\beta$} & $r(\rho)=0.003$ \\
 s3 & Log post-peak decline rate & $[\log \bar{I}_{t^*} - \log \bar{I}_{t^*+5}]/5$ & $\gamma$ & --- \\
 s4 & Half-peak duration & $(t_{1/2} - t^*)/T$ & $\gamma$ & $r(\gamma)=-0.77$ \\
-s5 & Early rewire ratio ($t=1$--$3$) & $\overline{R_{1:4}}/(N \cdot \overline{I_{1:4}})$ & \textbf{Pure $\rho$} & $r(\rho)=0.945$ \\
+s5 & Early rewire ratio ($t=1$--$3$) & $\overline{R_{1:3}}/(N \cdot \overline{I_{1:3}})$ & \textbf{Pure $\rho$} & $r(\rho)=0.945$ \\
 s6 & Rewire count at $t=1$ & $R_1/N$ & Compound ($\beta$+$\rho$) & $r(\beta)=0.41$ \\
 s7 & Rewire count at $t=2$ & $R_2/N$ & Compound ($\beta$+$\rho$) & $r(\beta)=0.63$ \\
 s8 & Fraction isolated nodes & $h_0/\sum_k h_k$ & Structural $\rho$ & $r(\rho)=0.20$ \\
@@ -161,7 +160,7 @@ All three parameters are identified: $r(\beta,\rho) = +0.071$, posterior shrinka
 
 \begin{figure}
     \centering
-    \includegraphics[width=1\linewidth]{posterior rejection.png}
+    \includegraphics[width=1\linewidth]{rejection_posteriors.png}
     \caption{Marginal posteriors for $\beta$, $\gamma$, $\rho$ at four tolerance levels, compared between baseline and informed summary statistics.}
     \label{fig:posteriors}
 \end{figure}
@@ -195,7 +194,7 @@ Figure~\ref{fig:heatmap} confirms the mechanistic design: baseline statistics ha
 
 \subsection{Point Estimates and Validation}
 
-Table~\ref{tab:estimates} gives posterior summaries at $\varepsilon=5\%$. A synthetic truth calibration check (simulation \#42 as pseudo-observed data, $\varepsilon=10\%$) confirmed all three 95\% CIs cover the true values under both rejection ABC and regression adjustment — verifying the pipeline is not systematically biased (Figure~\ref{fig:synth}).
+Table~\ref{tab:estimates} gives posterior summaries at $\varepsilon=5\%$. A synthetic truth calibration check (simulation \#42 as pseudo-observed data, $\varepsilon=10\%$) confirmed that all three 95\% CIs cover the true values under rejection ABC (Figure~\ref{fig:synth}); the same check under regression adjustment is shown later in Figure~\ref{fig:reg_adj_truth}.
 
 
 \begin{table}[h]
@@ -216,7 +215,7 @@ $\rho$   & 0.297 & 0.157 & 0.498 & 0.599 \\
 \begin{figure}[H]
 \centering
 \includegraphics[width=0.98\textwidth]{synth_truth.png}
-\caption{Synthetic truth recovery (simulation \#42). Top row: rejection ABC ($\varepsilon=10\%$); bottom row: regression-adjusted posterior. Red line = true value; shaded = 95\% CI. All three parameters are covered under both methods. True-value annotations in panel titles are generated at run-time. \textbf{\textit{(include only basic rejection?)}}}
+\caption{Synthetic truth recovery (simulation \#42) under rejection ABC ($\varepsilon=10\%$). Red line = true value; shaded = 95\% CI. All three parameters are covered.}
 \label{fig:synth}
 \end{figure}
 
@@ -283,7 +282,7 @@ This yields a sharper posterior approximation without requiring a smaller tolera
 
 \textbf{Results.} Applied to the informed statistics at $\varepsilon=10\%$ ($n=1{,}000$), regression adjustment narrows the posterior for all three parameters relative to the unadjusted rejection ABC posterior even at $\varepsilon=5\%$ (Figure~\ref{fig:regadj_post}). Posterior medians also remain stable across tolerance levels from $1\%$ to $20\%$ (Table~\ref{tab:regadj_stability}), with $\hat\beta \in [0.166, 0.183]$, $\hat\gamma \in [0.086, 0.090]$, and $\hat\rho \in [0.314, 0.320]$, indicating low sensitivity to the acceptance threshold. The adjusted posterior predictive distribution (Figure~\ref{fig:regadj_trajectory}) reproduces the observed infection trajectory, rewiring dynamics, and final degree histogram well. Figure~\ref{fig:degree_ppc} gives the corresponding 3-panel posterior predictive check at the rejection ABC posterior, confirming good structural fit under both inference methods.
 
-Compared with ABC-MCMC (Table~\ref{tab:reg_adj}), regression adjustment gives a more concentrated posterior for $\gamma$ (shrinkage $0.747$ vs $0.564$) and $\rho$ ($0.835$ vs $0.708$). For $\beta$, ABC-MCMC achieves slightly higher shrinkage than regression adjustment ($0.729$ vs $0.662$), reflecting that the Markov chain concentrates draws in the high-posterior region of $\beta$ once the chain has adapted. The posterior centres under the two methods remain similar overall, so the main effect of regression adjustment is to reduce posterior spread rather than to change the qualitative inference.
+Compared with ABC-MCMC (Table~\ref{tab:reg_adj}), regression adjustment gives a more concentrated posterior for $\gamma$ (shrinkage $0.747$ vs $0.564$) and $\rho$ ($0.834$ vs $0.708$). For $\beta$, ABC-MCMC achieves slightly higher shrinkage than regression adjustment ($0.729$ vs $0.664$), reflecting that the Markov chain concentrates draws in the high-posterior region of $\beta$ once the chain has adapted. The posterior centres under the two methods remain similar overall, so the main effect of regression adjustment is to reduce posterior spread rather than to change the qualitative inference.
 
 \begin{table}[h]
 \centering
@@ -316,9 +315,9 @@ Informed 20\% & $0.183\pm0.048$ & $0.090\pm0.015$ & $0.320\pm0.039$ \\
 \cmidrule(lr){2-4}\cmidrule(lr){5-7}
 \textbf{Param} & Median & 95\% CI & Shrinkage & Median & 95\% CI & Shrinkage \\
 \midrule
-$\beta$ & 0.176 & [0.109, 0.284] & 0.662 & 0.166 & [0.103, 0.236] & 0.729 \\
+$\beta$ & 0.176 & [0.108, 0.284] & 0.664 & 0.166 & [0.103, 0.236] & 0.729 \\
 $\gamma$ & 0.089 & [0.066, 0.119] & 0.747 & 0.083 & [0.054, 0.147] & 0.564 \\
-$\rho$   & 0.316 & [0.244, 0.393] & 0.835 & 0.285 & [0.175, 0.420] & 0.708 \\
+$\rho$   & 0.316 & [0.244, 0.393] & 0.834 & 0.285 & [0.175, 0.420] & 0.708 \\
 \bottomrule
 \end{tabular}
 \caption{Regression adjustment vs ABC-MCMC posterior summaries.}
@@ -327,14 +326,14 @@ $\rho$   & 0.316 & [0.244, 0.393] & 0.835 & 0.285 & [0.175, 0.420] & 0.708 \\
 
 \begin{figure}
     \centering
-    \includegraphics[width=1\linewidth]{posteior reg adj.png}
+    \includegraphics[width=1\linewidth]{regression_posteriors.png}
     \caption{Unadjusted posterior at $\varepsilon=5\%$ vs regression-adjusted posterior at $\varepsilon=10\%$. Adjustment narrows the posterior for all three parameters, most prominently $\beta$ and $\rho$.}
     \label{fig:regadj_post}
 \end{figure}
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.98\textwidth]{regadj_ppc.png}
+\includegraphics[width=0.98\textwidth]{regression_ppc.png}
 \caption{Posterior predictive check for regression-adjusted ABC ($\varepsilon=10\%$, posterior medians).}
 \label{fig:regadj_trajectory}
 \end{figure}
@@ -368,22 +367,22 @@ All three inference methods use the same informed 8-statistic design. Rejection 
 \midrule
 \multirow{3}{*}{Reg-Adj ABC}
   & \multirow{3}{*}{10\%}
-  & $\beta$  & 0.176\ [0.109, 0.284] & 0.662 \\
+  & $\beta$  & 0.176\ [0.108, 0.284] & 0.664 \\
   & & $\gamma$ & 0.089\ [0.066, 0.119] & 0.747 \\
-  & & $\rho$   & 0.316\ [0.244, 0.393] & 0.835 \\
+  & & $\rho$   & 0.316\ [0.244, 0.393] & 0.834 \\
 \bottomrule
 \end{tabular}
 \caption{Method comparison across all three inference approaches. All 95\% CIs from 2.5th/97.5th percentiles. Shrinkage $= 1 - \sigma_{\mathrm{post}}/\sigma_{\mathrm{prior}}$.}
 \label{tab:comparison}
 \end{table}
 
-The three inference methods lead to broadly consistent posterior centres, which supports the robustness of the main conclusions, but they differ in posterior sharpness. Rejection ABC with informed statistics already resolves the main $\beta$--$\rho$ confound and gives a well-calibrated baseline. ABC-MCMC produces a more concentrated posterior than rejection ABC, especially for $\beta$ and $\rho$, because the Markov chain spends more computation in high-posterior regions rather than drawing repeatedly from the full prior. Regression-adjusted ABC gives the sharpest posterior on average, winning on $\gamma$ and $\rho$ while remaining close to ABC-MCMC on $\beta$, and it preserves good posterior predictive fit to the infected trajectory, rewiring trajectory, and final degree histogram. This is plausible because the informed summaries are already highly structured, so the local regression correction can remove residual mismatch within the accepted sample efficiently. Since regression adjustment yields the highest shrinkage while remaining stable across tolerance levels and consistent with the other two methods, we take it as our final inferential estimate. We therefore take the regression-adjusted estimates as final: $\hat\beta = 0.176\ [0.109, 0.284]$, $\hat\gamma = 0.089\ [0.066, 0.119]$, $\hat\rho = 0.316\ [0.244, 0.393]$, where brackets denote 95\% credible intervals.
+The three inference methods lead to broadly consistent posterior centres, which supports the robustness of the main conclusions, but they differ in posterior sharpness. Rejection ABC with informed statistics already resolves the main $\beta$--$\rho$ confound and gives a well-calibrated baseline. ABC-MCMC produces a more concentrated posterior than rejection ABC, especially for $\beta$ and $\rho$, because the Markov chain spends more computation in high-posterior regions rather than drawing repeatedly from the full prior. Regression-adjusted ABC gives the sharpest posterior on average, winning on $\gamma$ and $\rho$ while remaining close to ABC-MCMC on $\beta$, and it preserves good posterior predictive fit to the infected trajectory, rewiring trajectory, and final degree histogram. This is plausible because the informed summaries are already highly structured, so the local regression correction can remove residual mismatch within the accepted sample efficiently. Since regression adjustment yields the highest shrinkage while remaining stable across tolerance levels and consistent with the other two methods, we take it as our final inferential estimate. We therefore take the regression-adjusted estimates as final: $\hat\beta = 0.176\ [0.108, 0.284]$, $\hat\gamma = 0.089\ [0.066, 0.119]$, $\hat\rho = 0.316\ [0.244, 0.393]$, where brackets denote 95\% credible intervals.
 
 As a final validation check, we performed a synthetic-truth recovery experiment by selecting one simulated dataset as pseudo-observed data and rerunning inference while treating its generating parameters as unknown. Figure~\ref{fig:reg_adj_truth} regression-adjusted ABC on this test case, as compared to rejection ABC. For all three parameters, the true values lie within the recovered 95\% credible intervals under both methods, indicating that the rejection-based pipeline is not systematically biased on this example. The adjusted posterior is visibly more concentrated, especially for $\gamma$ and $\rho$, while still retaining coverage of the truth. This supports the validity of the overall inference pipeline and suggests that regression adjustment improves posterior efficiency without sacrificing calibration.
 
 \begin{figure}
     \centering
-    \includegraphics[width=1\linewidth]{tsr reg adj.png}
+    \includegraphics[width=1\linewidth]{synth_truth_regadj.png}
     \caption{Synthetic-truth recovery under regression-adjusted ABC with basic rejection ABC as comparison. Red lines indicate the true generating values and black dotted lines the posterior medians.}
     \label{fig:reg_adj_truth}
 \end{figure}
@@ -395,13 +394,13 @@ As a final validation check, we performed a synthetic-truth recovery experiment 
 % ============================================================
 
 \paragraph{Parameter-level findings}
-$\rho$ is identified most cleanly (shrinkage 0.599 by rejection ABC, 0.835 by regression adjustment), driven by the early rewire-per-infected ratio s5 ($r(\rho)=0.945$). $\beta$ is only identifiable after breaking the $\beta$--$\rho$ confound via the first-step statistic s2 ($r(\rho)=0.003$); without it, the posterior is near-prior-flat. $\gamma$ is moderately identified (shrinkage 0.505--0.747) through post-peak decay statistics s3/s4, independently of the other two. Best estimates from regression-adjusted ABC ($\varepsilon=10\%$, see Table~\ref{tab:comparison}): $\hat\beta=0.176$ [0.109, 0.284], $\hat\gamma=0.089$ [0.066, 0.119], $\hat\rho=0.316$ [0.244, 0.393]. Residual uncertainty in $\beta$ (CI width $\approx 0.18$) reflects the inherent difficulty of separating transmission from rewiring; additional early-time or pre-epidemic network observations would reduce it further.
+$\rho$ is identified most cleanly (shrinkage 0.599 by rejection ABC, 0.834 by regression adjustment), driven by the early rewire-per-infected ratio s5 ($r(\rho)=0.945$). $\beta$ is only identifiable after breaking the $\beta$--$\rho$ confound via the first-step statistic s2 ($r(\rho)=0.003$); without it, the posterior is near-prior-flat. $\gamma$ is moderately identified (shrinkage 0.505--0.747) through post-peak decay statistics s3/s4, independently of the other two. Best estimates from regression-adjusted ABC ($\varepsilon=10\%$, see Table~\ref{tab:comparison}): $\hat\beta=0.176$ [0.108, 0.284], $\hat\gamma=0.089$ [0.066, 0.119], $\hat\rho=0.316$ [0.244, 0.393]. Residual uncertainty in $\beta$ (CI width $\approx 0.18$) reflects the inherent difficulty of separating transmission from rewiring; additional early-time or pre-epidemic network observations would reduce it further.
 
 \paragraph{Robustness and validity}
 Four independent checks support the conclusions. (1)~\emph{Synthetic truth recovery}: all 95\% CIs cover the true values, confirming no systematic bias. (2)~\emph{Posterior predictive checks}: the posterior reproduces infected fraction, rewiring, and degree distributions well for all three inference methods. (3)~\emph{Regression adjustment} converges to the same posterior centre as rejection ABC (within 0.02 per parameter) with smaller spread, confirming tolerance robustness. (4)~\emph{ABC-MCMC} at the tighter $\varepsilon=2\%$ independently produces consistent point estimates, cross-validating the posterior location across two methodologically distinct algorithms. Remaining uncertainty is likely irreducible at this sample size; semi-automatic statistic selection \cite{FP12} could yield further gains.
 
 \paragraph{Transparency}
-AI tools (Claude, ChatGPT, and Copilot) were used to assist with code drafting, figure generation, wording refinement, and LaTex structuring, but all final numerical results, plots, and interpretations were verified independently by the authors. Several alternatives were explored and discarded during development. First, degree variance was tested as a candidate $\gamma$ statistic, but it was dropped because it loaded primarily on $\rho$, reflecting the accumulation of isolated nodes under high rewiring rather than recovery dynamics. Second, a naive two-statistic design was rejected early because it showed strong residual confounding, with $|r(\beta,\rho)| = 0.599$. Third, in regions of the prior with very small epidemics (roughly $\beta < 0.08$ and $\rho > 0.7$), the log-decline statistic $s_3$ became numerically unstable as the infected fraction approached zero; this was handled by clamping the infected fraction away from zero before taking logs.
+AI tools (Claude, ChatGPT, and Copilot) were used to assist with code drafting, figure generation, wording refinement, and LaTex structuring, but all final numerical results, plots, and interpretations were verified independently by the authors. Several alternatives were explored and discarded during development. First, degree variance was tested as a candidate $\gamma$ statistic, but it was dropped because it loaded primarily on $\rho$, reflecting the accumulation of isolated nodes under high rewiring rather than recovery dynamics. Second, a naive two-statistic design was rejected early because it showed strong residual confounding, with $|r(\beta,\rho)| = 0.625$. Third, in regions of the prior with very small epidemics (roughly $\beta < 0.08$ and $\rho > 0.7$), the log-decline statistic $s_3$ became numerically unstable as the infected fraction approached zero; this was handled by clamping the infected fraction away from zero before taking logs.
 
 \bibliographystyle{alpha}
 \bibliography{references}

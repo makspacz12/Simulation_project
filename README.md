@@ -95,8 +95,8 @@ Large simulation caches (`*.npz`) are gitignored and regenerated on first run.
 
 ```bash
 # 1. Clone
-git clone https://github.com/makspacz12/st3247-adaptive-sir-abc.git
-cd st3247-adaptive-sir-abc
+git clone https://github.com/makspacz12/adaptive-network-sir-abc.git
+cd adaptive-network-sir-abc
 
 # 2. Open and run the notebook (Python 3 + numpy, pandas, matplotlib, scikit-learn)
 jupyter notebook simulator.ipynb

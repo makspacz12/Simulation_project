@@ -7,6 +7,8 @@
 
 Group project by **Maksymilian Paczyński** and **Ruofei Fang**.
 
+**Grade obtained: A (Honours)**
+
 ---
 
 ## Overview
@@ -105,8 +107,6 @@ pdflatex report.tex && bibtex report && pdflatex report.tex && pdflatex report.t
 - Ruofei Fang  
 
 Group project for **ST3247 Simulation**, NUS, under **Assoc. Prof. Alexandre Thiéry**.
-
-**Grade obtained: A (Honours)**
 
 ---
 

@@ -11,9 +11,11 @@ Group project by **Maksymilian Paczyński** and **Ruofei Fang**.
 
 ## Overview
 
-This repository contains the **course project** for ST3247: inferring parameters of a stochastic SIR epidemic on an **adaptive contact network** (Gross et al., 2006) when the likelihood is intractable.
+This repository is the **graded group project** for [ST3247 Simulation](https://nusmods.com/courses/ST3247/simulation) (AY25/26 Semester 2) under **Assoc. Prof. Alexandre Thiéry**.
 
-The main deliverable is the written **report** plus a reproducible **simulation / ABC pipeline**. We use Approximate Bayesian Computation (ABC) with mechanistically designed summary statistics, then strengthen inference with **regression adjustment** and **ABC-MCMC**.
+The assessment was to run a full **simulation-based inference** pipeline on a stochastic SIR epidemic on an **adaptive contact network** (Gross et al., 2006), where the likelihood is intractable. In practice that meant implementing and stress-testing the same ideas examined in the module — especially **Monte Carlo simulation**, **Bayesian inference**, and **Approximate Bayesian Computation (ABC)** — then pushing beyond basic rejection ABC with advanced methods.
+
+**Primary deliverables:** written **report** (`report.pdf`) + reproducible **code / notebook** (`simulator.ipynb`). Project marking (per brief): **70% report** · **30% code**.
 
 | Parameter | Meaning | Prior |
 |---|---|---|
@@ -30,6 +32,33 @@ The main deliverable is the written **report** plus a reproducible **simulation 
 | ρ | 0.316 | [0.244, 0.393] | 0.834 |
 
 Informed 8-statistic design resolves the β–ρ confound: posterior correlation \(r(\beta,\rho) = 0.071\) at ε = 5% (vs 0.818 for naive temporal means).
+
+---
+
+## Course assessment & syllabus (what this project tested)
+
+Under Prof. Thiéry the module was heavily **implementation-first** (Python / NumPy). Typical component weights for AY25/26 Sem 2:
+
+| Component | Weight |
+|---|---:|
+| Canvas quizzes | 10% |
+| Midterm | 20% |
+| **Group project (this repo)** | **30%** |
+| Final exam | 40% |
+
+**Topics covered in the course** (and exercised by the project / exams):
+
+1. Monte Carlo estimation  
+2. Inverse transform sampling and rejection sampling  
+3. Importance sampling (including self-normalised IS)  
+4. Bayesian inference  
+5. **Approximate Bayesian Computation (ABC)** — core of this project; also relevant to finals preparation  
+6. Markov chain basics  
+7. Markov Chain Monte Carlo (lecture coverage varied by semester; we still implemented **ABC-MCMC** as an advanced project method)
+
+The project brief required: (i) basic **rejection ABC**, (ii) careful **summary-statistic design** (β and ρ are mechanistically confounded), and (iii) at least one **advanced SBI method** (we used regression adjustment + ABC-MCMC), plus validation.
+
+Midterm performance: **A** · list **A (Honours)** — context for the course standard under Prof. Thiéry.
 
 ---
 
@@ -60,8 +89,6 @@ Large simulation caches (`*.npz`) are gitignored and regenerated on first run.
 4. **ABC-MCMC** (Marjoram et al., 2003) — independent cross-check at a tighter tolerance.
 5. **Validation** — synthetic-truth recovery and posterior predictive checks.
 
-Grading emphasis for this project (per course brief): **70% report** (experiments, critical analysis, depth) · **30% code** (documentation, readability, reproducibility).
-
 ---
 
 ## How to reproduce
@@ -86,20 +113,12 @@ pdflatex report.tex && bibtex report && pdflatex report.tex && pdflatex report.t
 
 ---
 
-## Course context
-
-ST3247 covers pseudorandom generation, discrete-event simulation, analysis of simulated data, variance reduction, MCMC, and stochastic optimisation. This project applies those ideas to **simulation-based inference** on a network epidemic with behavioural rewiring.
-
-Midterm performance in the module: **A** (written) · **A (Honours)** on the list — included here as context for the course standard under Prof. Thiéry.
-
----
-
 ## Authors
 
 - Maksymilian Paczyński  
 - Ruofei Fang  
 
-Supervised project work under **Assoc. Prof. Alexandre Thiéry**, NUS.
+Group project for **ST3247 Simulation**, NUS, under **Assoc. Prof. Alexandre Thiéry**.
 
 ---
 

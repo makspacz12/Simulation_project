@@ -68,8 +68,8 @@ Grading emphasis for this project (per course brief): **70% report** (experiment
 
 ```bash
 # 1. Clone
-git clone https://github.com/makspacz12/Simulation_project.git
-cd Simulation_project
+git clone https://github.com/makspacz12/st3247-adaptive-sir-abc.git
+cd st3247-adaptive-sir-abc
 
 # 2. Open and run the notebook (Python 3 + numpy, pandas, matplotlib, scikit-learn)
 jupyter notebook simulator.ipynb

@@ -68,7 +68,7 @@ $\rho$ & Rewiring probability per S--I edge per step & $\mathrm{Uniform}(0.0,\,0
 \caption{Model parameters and priors.}
 \end{table}
 
-\noindent The epidemic peaks around $t \approx 9$ (mean infected fraction $\approx 0.63$) and decays to near-zero by $t=200$. Each time step applies three sequential phases: Infection $\to$ Recovery $\to$ Rewiring. In our discrete implementation, a rewiring event reconnects the susceptible node to a uniformly random non-neighbour (who may be S, I, or R); this differs from the continuous-time Gross et al.\ formulation, where rewired links are preferentially formed to other susceptibles. The observed dataset contains 40 replicate trajectories of infected fraction, rewiring counts, and the final degree histogram. All code and analysis scripts are available at: \url{https://github.com/makspacz12/adaptive-epidemic-inference}.
+\noindent The epidemic peaks around $t \approx 9$ (mean infected fraction $\approx 0.63$) and decays to near-zero by $t=200$. Each time step applies three sequential phases: Infection $\to$ Recovery $\to$ Rewiring. In our discrete implementation, a rewiring event reconnects the susceptible node to a uniformly random non-neighbour (who may be S, I, or R); this differs from the continuous-time Gross et al.\ formulation, where rewired links are preferentially formed to other susceptibles. The observed dataset contains 40 replicate trajectories of infected fraction, rewiring counts, and the final degree histogram. All code and analysis scripts are available at: \url{https://github.com/makspacz12/simulation-based-epidemic-inference}.
 
 
 
